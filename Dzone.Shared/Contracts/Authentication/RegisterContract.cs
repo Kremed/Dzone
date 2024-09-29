@@ -21,4 +21,6 @@ public class RegisterContract
     [Phone(ErrorMessage = "رقم الهاتف غير صالح, الرجاء كتابة رقم هاتف بالصورة الصحيحة.")]
     [RegularExpression(@"^\+218(91|92|93|94|95)\d{7}$", ErrorMessage = "رقم هاتف غير صالح. يجب ان يكون الرقم مثل: +21891XXXXXXX, +21892XXXXXXX, +21893XXXXXXX, +21894XXXXXXX, or +21895XXXXXXX.")]
     public string phoneNumber { get; set; } = null!;
+
+    public string UserType { get; set; } = null!;
 }

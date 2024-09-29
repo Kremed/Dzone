@@ -1,4 +1,4 @@
-global using System.Text;
+﻿global using System.Text;
 global using Microsoft.Win32;
 global using Dzone.Backend.Data;
 global using Microsoft.AspNetCore.Mvc;
@@ -28,9 +28,24 @@ public class Program
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionString));
 
-        builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                        .AddEntityFrameworkStores<ApplicationDbContext>()
-                        .AddDefaultTokenProviders();
+        builder.Services.AddIdentity<MyCustomAppUser, IdentityRole>(options =>
+        {
+            options.Password.RequireDigit = true;    
+            options.Password.RequireLowercase = false; 
+            options.Password.RequireUppercase = false; 
+            options.Password.RequireNonAlphanumeric = false; 
+            options.Password.RequiredLength = 6; 
+            //options.Password.RequiredUniqueChars = 6; // at least one unique character
+
+            options.User.RequireUniqueEmail = true;
+            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ د ج ح خ ه ع غ ف ق ث ص ض ذ 12 3 3 4 4 5 5 6 6 7 7 8 8 9 8 9 9 09  ط ك م ن ت ا ل ب ي س ش ظ ز و ة ى لا لا ر ؤ ء ئ أ آ لأ لآ" + "أ آ إ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن  ه  و ؤ ئ ي ء";
+
+            options.SignIn.RequireConfirmedEmail = false;
+            options.SignIn.RequireConfirmedPhoneNumber = true;
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+
 
 
 
@@ -112,13 +127,3 @@ public class Program
 
 
 
-//options =>
-//{
-//    // Password settings
-//    options.Password.RequireDigit = true; // Requires at least one digit ('0'-'9')
-//    options.Password.RequireLowercase = true; // Requires at least one lowercase letter ('a'-'z')
-//    options.Password.RequireUppercase = true; // Requires at least one uppercase letter ('A'-'Z')
-//    options.Password.RequireNonAlphanumeric = true; // Requires at least one non-alphanumeric character
-//    options.Password.RequiredLength = 6; // Minimum length of 6 characters
-//    options.Password.RequiredUniqueChars = 1; // At least one unique character
-//}
