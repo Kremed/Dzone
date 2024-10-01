@@ -9,6 +9,16 @@ global using Microsoft.IdentityModel.Tokens;
 global using Dzone.Shared.Contracts.Authentication;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Authorization;
+global using Swashbuckle.AspNetCore.Annotations;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Net;
+global using System.Net.Mail;
+global using System.Security.Claims;
+global using Dzone.Models.Shered;
+global using Dzone.Backend.ServicesInterfaces;
+global using Dzone.Backend.ServicesRepositories;
+
 
 namespace Dzone.Backend;
 
@@ -26,38 +36,30 @@ public class Program
         //==========================================Identit=====================================================
         var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+        builder.Services.AddDbContext<DzoneDbContext>(options => options.UseSqlServer(ConnectionString));
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionString));
 
         builder.Services.AddIdentity<MyCustomAppUser, IdentityRole>(options =>
         {
-            options.Password.RequireDigit = true;    
-            options.Password.RequireLowercase = false; 
-            options.Password.RequireUppercase = false; 
-            options.Password.RequireNonAlphanumeric = false; 
-            options.Password.RequiredLength = 6; 
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
             //options.Password.RequiredUniqueChars = 6; // at least one unique character
 
             options.User.RequireUniqueEmail = true;
             options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ د ج ح خ ه ع غ ف ق ث ص ض ذ 12 3 3 4 4 5 5 6 6 7 7 8 8 9 8 9 9 09  ط ك م ن ت ا ل ب ي س ش ظ ز و ة ى لا لا ر ؤ ء ئ أ آ لأ لآ" + "أ آ إ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن  ه  و ؤ ئ ي ء";
 
-            options.SignIn.RequireConfirmedEmail = false;
-            options.SignIn.RequireConfirmedPhoneNumber = true;
+            options.SignIn.RequireConfirmedEmail = true;
+            options.SignIn.RequireConfirmedPhoneNumber = false;
+
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+            options.Lockout.MaxFailedAccessAttempts = 3;
+            options.Lockout.AllowedForNewUsers = true;
         })
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //JWT support =>
         builder.Services.AddAuthentication(options =>
@@ -86,6 +88,38 @@ public class Program
 
         builder.Services.AddSwaggerGen();
 
+        //Objects : instance-based injection or factory method injection=>
+        builder.Services.AddTransient<MailMessage>(provider =>
+        {
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress("info@maui.ly", "DZone system"),
+                Subject = "Dzone OTP - Email Confirmation",
+                IsBodyHtml = true
+            };
+
+            return mailMessage;
+        });
+
+        builder.Services.AddSingleton<SmtpClient>(opt =>
+        {
+            var client = new SmtpClient("maui.ly")
+            {
+                Credentials = new NetworkCredential("info@maui.ly", "Mfqb48!53"),
+                Port = 587,
+            };
+
+            return client;
+        });
+
+        //Services Implementation =>
+        builder.Services.AddSingleton<IEmailService, EmailService>();
+
+        builder.Services.AddSingleton<ITokenService, JwtTokenService>();
+
+        builder.Services.AddTransient<IUserOtpService, UserOtpService>();
+
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -95,8 +129,6 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
-
 
         //=========================================Identit======================================================
         app.UseAuthentication();
