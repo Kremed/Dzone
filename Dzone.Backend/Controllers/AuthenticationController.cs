@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity.Data;
 
 namespace Dzone.Backend.Controllers
 {
@@ -97,7 +97,7 @@ namespace Dzone.Backend.Controllers
                 //var isSucssesLoginResult = await userManager.CheckPasswordAsync(user, model.password);
 
                 var isSucssesLoginResult = await signInManager.PasswordSignInAsync(user.UserName!, model.password, isPersistent: false, lockoutOnFailure: true);
-                
+
                 if (isSucssesLoginResult.IsNotAllowed)
                 {
                     var otpCode = await otpService.CreateEmailOtpCode(user.Id);
@@ -169,6 +169,68 @@ namespace Dzone.Backend.Controllers
             }
         }
 
+        [HttpPost("forgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgetPasswordRequest model)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(model.email);
+
+                if (user is null)
+                    return BadRequest("فشلت عملية أستعادة كلمة المرور");
+
+                var otpCode = await otpService.CreateRestPasswordOtpCode(user.Id);
+
+                //var GeneratedToken = await userManager.GeneratePasswordResetTokenAsync(user);
+                //var url = Url($"https://localhost:7282/api/Authentication/restPassword?GeneratedToken={GeneratedToken}&email={user.Email}&newPassword=Mm123321@";);
+
+                var isEmailSent = await emailService.SendResetPasswordEmail(otp: otpCode.ToString(), email: user.Email!);
+
+                if (!isEmailSent)
+                    return BadRequest("لم تتم عملية أرسال بريد التحقق, الرجاء أعادة المحاولة مرة اخرئ.");
+                else
+                    return Ok("تم أرسال رمز التحقق الي بريدك الألكتروني الرجاء ادخال رمز التحقق وكلمة السر الجديدة.");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet("restPassword")]
+        public async Task<IActionResult> RestPassword([FromBody] RestPasswordRequest model)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(model.email);
+
+                if (user is null)
+                    return BadRequest("فشلت عملية تغير كلمة المرور");
+
+                var isValidOtp = await otpService.IsValidRestPasswordOtpCode(code: model.otpCode, userID: user.Id);
+
+                if (isValidOtp is false)
+                    return BadRequest("فشلت عملية تغير كلمة المرور");
+
+
+                //var GeneratedToken = await userManager.GenerateChangeEmailTokenAsync(user);
+                //var GeneratedToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var GeneratedToken = await userManager.GeneratePasswordResetTokenAsync(user);
+                var ResetPasswordResult = await userManager.ResetPasswordAsync(user: user, token: GeneratedToken, newPassword: model.newPassword);
+
+                if (!ResetPasswordResult.Succeeded)
+                    return BadRequest(ResetPasswordResult.Errors);
+
+                return Ok("تم تعين كلمة المرور الجديدة بنجاح");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+
+
+        }
+
         [HttpPost("createSystemRoles")]
         public async Task<IActionResult> CreateSystemRoles()
         {
@@ -222,6 +284,9 @@ namespace Dzone.Backend.Controllers
 
 
         }
+
+
+
 
 
     }

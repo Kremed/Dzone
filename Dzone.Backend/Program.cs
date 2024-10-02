@@ -17,8 +17,8 @@ global using System.Net.Mail;
 global using System.Security.Claims;
 global using Dzone.Models.Shered;
 global using Dzone.Backend.ServicesInterfaces;
+global using System.ComponentModel.DataAnnotations;
 global using Dzone.Backend.ServicesRepositories;
-
 
 namespace Dzone.Backend;
 
@@ -46,16 +46,17 @@ public class Program
             options.Password.RequireUppercase = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 6;
-            //options.Password.RequiredUniqueChars = 6; // at least one unique character
+
 
             options.User.RequireUniqueEmail = true;
             options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ د ج ح خ ه ع غ ف ق ث ص ض ذ 12 3 3 4 4 5 5 6 6 7 7 8 8 9 8 9 9 09  ط ك م ن ت ا ل ب ي س ش ظ ز و ة ى لا لا ر ؤ ء ئ أ آ لأ لآ" + "أ آ إ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن  ه  و ؤ ئ ي ء";
 
             options.SignIn.RequireConfirmedEmail = true;
             options.SignIn.RequireConfirmedPhoneNumber = false;
+            //options.SignIn.RequireConfirmedAccount = true;
 
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
             options.Lockout.MaxFailedAccessAttempts = 3;
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
             options.Lockout.AllowedForNewUsers = true;
         })
         .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -103,10 +104,11 @@ public class Program
 
         builder.Services.AddSingleton<SmtpClient>(opt =>
         {
-            var client = new SmtpClient("maui.ly")
+            var client = new SmtpClient("maui.ly", 587)
             {
                 Credentials = new NetworkCredential("info@maui.ly", "Mfqb48!53"),
-                Port = 587,
+                //Port = 587
+                //Port = 465,
             };
 
             return client;
@@ -135,7 +137,6 @@ public class Program
 
         app.UseAuthorization();
         //=========================================Identit======================================================
-
 
         app.MapControllers();
 
