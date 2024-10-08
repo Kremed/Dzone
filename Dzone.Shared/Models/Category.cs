@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dzone.Models.Shered;
+﻿namespace Dzone.Models.Shered;
 
 public partial class Category
 {
@@ -18,4 +15,5 @@ public partial class Category
     public bool IsActive { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+   
 }

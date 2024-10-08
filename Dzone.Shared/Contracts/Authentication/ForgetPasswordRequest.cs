@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Dzone.Shared.Contracts.Authentication
+﻿namespace Dzone.Shared.Contracts.Authentication
 {
     public class ForgetPasswordRequest
     {

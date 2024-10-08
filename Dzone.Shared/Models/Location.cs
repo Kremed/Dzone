@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dzone.Models.Shered;
+﻿namespace Dzone.Models.Shered;
 
 public partial class Location
 {

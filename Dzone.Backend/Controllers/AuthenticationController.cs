@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
+using System;
 
 namespace Dzone.Backend.Controllers
 {
@@ -104,7 +105,8 @@ namespace Dzone.Backend.Controllers
 
                     var isEmailSent = await emailService.SendConfirmationEmail(otp: otpCode.ToString(), email: user.Email!);
 
-                    return BadRequest("الرجاء تــأكيد بريدك الألكتروني, لايمكن تسجيل الدخول قبل تــأكيد امتلاكك للبريد الألكترونية");
+                    //Forbidden => StatusCode = 403 = Email Account not confirmed
+                    return Forbid("الرجاء تــأكيد بريدك الألكتروني, لايمكن تسجيل الدخول قبل تــأكيد امتلاكك للبريد الألكترونية");
                 }
                 else if (isSucssesLoginResult.IsLockedOut)
                 {
@@ -112,8 +114,8 @@ namespace Dzone.Backend.Controllers
                 }
                 else if (isSucssesLoginResult.Succeeded)
                 {
+                    //new Claim(ClaimTypes.Name, user.UserName!),
                     var authClaims = new List<Claim>{
-                                     new Claim(ClaimTypes.Name, user.UserName!),
                                      new Claim(ClaimTypes.NameIdentifier, user.Id!),
                                      new Claim(ClaimTypes.MobilePhone, user.PhoneNumber!)};
 
@@ -126,8 +128,7 @@ namespace Dzone.Backend.Controllers
 
                     return Ok(token);
                 }
-
-                return Unauthorized();
+                return Unauthorized("فشلت عملية المصادقة, الرجاء التــأكد من البيانات");
             }
             catch (Exception ex)
             {
@@ -197,7 +198,7 @@ namespace Dzone.Backend.Controllers
             }
         }
 
-        [HttpGet("restPassword")]
+        [HttpPost("restPassword")]
         public async Task<IActionResult> RestPassword([FromBody] RestPasswordRequest model)
         {
             try
@@ -286,8 +287,70 @@ namespace Dzone.Backend.Controllers
         }
 
 
+        [HttpPost("createUserLocation"), Authorize(Roles = "AppUser")]
+        public async Task<IActionResult> CreateUserLocation([FromBody] CreateLocationContract locationContract)
+        {
+            try
+            {
+                var userNameIdentifier = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+                if (userNameIdentifier is null)
+                    return Unauthorized();
 
+                //var userNameIdentifier2 = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                //var userMobilePhone = User.FindFirstValue(ClaimTypes.MobilePhone);
+
+                //var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                //var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+                //var userRoles = User.FindAll(ClaimTypes.Email);
+
+                Location location = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = locationContract.Title,
+                    Discrption = locationContract.Discrption,
+                    Latitude = locationContract.Latitude,
+                    Longitude = locationContract.Longitude,
+                    UserId = userNameIdentifier,
+                    IsActive = true,
+                };
+
+                await context.Locations.AddAsync(location);
+
+                await context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return Problem(exception.Message);
+            }
+
+        }
+
+        [HttpGet("getUserLocation"), Authorize(Roles = "AppUser")]
+        public async Task<IActionResult> GetUserLocation()
+        {
+            try
+            {
+                var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userID))
+                    return Unauthorized();
+
+                var locations = await context.Locations
+                                       .Where(l => l.UserId == userID && l.IsActive == true)
+                                       .ToListAsync();
+
+                return Ok(locations);
+            }
+            catch (Exception exception)
+            {
+                //loging logic
+                return Problem(exception.Message);
+            }
+        }
     }
 }

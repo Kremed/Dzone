@@ -15,6 +15,7 @@
         /// This method uses the configured <see cref="SmtpClient"/> to send an email containing the OTP.
         /// If an exception occurs during the process, it catches the exception and returns <c>false</c>.
         /// </remarks>
+        
         Task<bool> SendConfirmationEmail(string otp, string email);
 
         /// <summary>
@@ -33,6 +34,7 @@
         /// If an exception occurs during the process, the method catches the exception and returns <c>false</c>.
         /// </remarks>
         Task<bool> SendResetPasswordEmail(string otp, string email);
-
+       
+        
     }
 }

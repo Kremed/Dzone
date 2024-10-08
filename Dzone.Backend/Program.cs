@@ -1,24 +1,22 @@
-﻿global using System.Text;
-global using Microsoft.Win32;
-global using Dzone.Backend.Data;
-global using Microsoft.AspNetCore.Mvc;
-global using Microsoft.Extensions.Options;
-global using Microsoft.AspNetCore.Identity;
-global using Microsoft.EntityFrameworkCore;
-global using Microsoft.IdentityModel.Tokens;
+﻿global using Dzone.Backend.Data;
+global using Dzone.Backend.ServicesInterfaces;
+global using Dzone.Backend.ServicesRepositories;
+global using Dzone.Models.Shered;
 global using Dzone.Shared.Contracts.Authentication;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
-global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Authorization;
-global using Swashbuckle.AspNetCore.Annotations;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Serialization;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Net;
 global using System.Net.Mail;
 global using System.Security.Claims;
-global using Dzone.Models.Shered;
-global using Dzone.Backend.ServicesInterfaces;
-global using System.ComponentModel.DataAnnotations;
-global using Dzone.Backend.ServicesRepositories;
+global using System.Text;
 
 namespace Dzone.Backend;
 
@@ -29,8 +27,12 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddControllers();
-
+        builder.Services.AddControllers()
+                        .AddNewtonsoftJson(options =>
+                        {
+                            options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        });
 
         //3. Register Identity in Program.cs
         //==========================================Identit=====================================================
@@ -107,8 +109,6 @@ public class Program
             var client = new SmtpClient("maui.ly", 587)
             {
                 Credentials = new NetworkCredential("info@maui.ly", "Mfqb48!53"),
-                //Port = 587
-                //Port = 465,
             };
 
             return client;
