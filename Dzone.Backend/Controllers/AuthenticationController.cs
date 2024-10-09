@@ -117,6 +117,8 @@ namespace Dzone.Backend.Controllers
                     //new Claim(ClaimTypes.Name, user.UserName!),
                     var authClaims = new List<Claim>{
                                      new Claim(ClaimTypes.NameIdentifier, user.Id!),
+                                     new Claim(ClaimTypes.Name, user.UserName!),
+                                     new Claim(ClaimTypes.Email, user.Email!),
                                      new Claim(ClaimTypes.MobilePhone, user.PhoneNumber!)};
 
                     var userRoles = await userManager.GetRolesAsync(user);
@@ -292,6 +294,7 @@ namespace Dzone.Backend.Controllers
         {
             try
             {
+                
                 var userNameIdentifier = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userNameIdentifier is null)

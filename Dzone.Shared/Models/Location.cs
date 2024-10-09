@@ -1,4 +1,7 @@
-﻿namespace Dzone.Models.Shered;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Dzone.Models.Shered;
 
 public partial class Location
 {
@@ -15,6 +18,8 @@ public partial class Location
     public string Longitude { get; set; } = null!;
 
     public bool IsActive { get; set; }
+
+    public virtual ICollection<Ordar> Ordars { get; set; } = new List<Ordar>();
 
     public virtual AspNetUser User { get; set; } = null!;
 }

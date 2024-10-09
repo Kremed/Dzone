@@ -12,21 +12,16 @@ namespace Dzone.Backend.Controllers
             try
             {
 
-                StartDataDto data = new()
-                {
-                    categories = await context.Categories.Where(c => c.IsActive).AsNoTracking().ToListAsync(),
-                    products = await context.Products.Where(c => c.IsActive).AsNoTracking().ToListAsync(),
-
-                };
+                //StartDataDto data = new()
+                //{
+                //    categories = await context.Categories.Where(c => c.IsActive).AsNoTracking().ToListAsync(),
+                //    products = await context.Products.Where(c => c.IsActive).AsNoTracking().ToListAsync(),
+                //};
 
                 //return Ok(data);
 
-
                 var CategoriesAndProducts = await context.Categories.Where(c => c.IsActive)
                                                   .Include(p => p.Products.Where(p => p.IsActive))
-                                                    .ThenInclude(p => p.Category)
-                                                  .Include(p => p.Products.Where(p => p.IsActive))
-                                                    .ThenInclude(p=>p.OrderContents)
                                                   .ToListAsync();
 
                 return Ok(CategoriesAndProducts);

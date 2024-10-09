@@ -9,6 +9,8 @@ public partial class OrderContent
 
     public string OrderId { get; set; } = null!;
 
+    public int Quantity { get; set; }
+
     public string ProductId { get; set; } = null!;
 
     public double Price { get; set; }

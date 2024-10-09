@@ -17,15 +17,19 @@ public partial class Ordar
 
     public bool? IsPaid { get; set; }
 
+    public string Status { get; set; } = null!;
+
     public string? CaptainId { get; set; }
 
     public string? PaymentLink { get; set; }
 
     public DateTime? EndTime { get; set; }
 
-    public string Notes { get; set; } = null!;
+    public string? Notes { get; set; }
 
     public virtual AspNetUser? Captain { get; set; }
+
+    public virtual Location Location { get; set; } = null!;
 
     public virtual ICollection<OrderContent> OrderContents { get; set; } = new List<OrderContent>();
 

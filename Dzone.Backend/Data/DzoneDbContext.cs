@@ -154,6 +154,7 @@ public partial class DzoneDbContext : DbContext
                 .HasColumnName("LocationID");
             entity.Property(e => e.PaymentLink).HasMaxLength(450);
             entity.Property(e => e.StartTime).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
                 .HasColumnName("UserID");
@@ -161,6 +162,11 @@ public partial class DzoneDbContext : DbContext
             entity.HasOne(d => d.Captain).WithMany(p => p.OrdarCaptains)
                 .HasForeignKey(d => d.CaptainId)
                 .HasConstraintName("FK_Ordar_AspNetUsers1");
+
+            entity.HasOne(d => d.Location).WithMany(p => p.Ordars)
+                .HasForeignKey(d => d.LocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Ordar_Location");
 
             entity.HasOne(d => d.User).WithMany(p => p.OrdarUsers)
                 .HasForeignKey(d => d.UserId)
