@@ -3,12 +3,177 @@
     x:Class="Dzone.Mobile.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Dzone.Mobile.Views"
+    xmlns:AuthViews="clr-namespace:Dzone.Mobile.Views.AuthViews"
+    xmlns:local="clr-namespace:Dzone.Mobile"
+    xmlns:views="clr-namespace:Dzone.Mobile.Views"
     Title="Dzone.Mobile"
-    Shell.FlyoutBehavior="Disabled">
+    Padding="10"
+    BackgroundColor="{AppThemeBinding Dark={StaticResource Primary},
+                                      Light={StaticResource Primary}}"
+    FlowDirection="RightToLeft"
+    FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource OffBlack},
+                                            Light={StaticResource White}}"
+    FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed"
+    Shell.TabBarBackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite},
+                                                  Dark={StaticResource Black}}"
+    Shell.TabBarDisabledColor="{AppThemeBinding Light={StaticResource Primary},
+                                                Dark={StaticResource Primary}}"
+    Shell.TabBarForegroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                  Dark={StaticResource Primary}}"
+    Shell.TabBarTitleColor="{AppThemeBinding Light={StaticResource Primary},
+                                             Dark={StaticResource Primary}}"
+    Shell.TabBarUnselectedColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                  Dark={StaticResource Gray400}}">
+    <Shell.Resources>
+        <Style Class="FlyoutItemLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="MyFont" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+    </Shell.Resources>
 
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:HomeView}" />
-    <!--<ShellContent Title="Home" ContentTemplate="{DataTemplate local:LoginPage}" />
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:RegisterView}" />-->
+    <Shell.TitleView>
+        <StackLayout
+            Padding="10,0"
+            FlowDirection="LeftToRight"
+            Orientation="Horizontal">
+            <Image
+                HeightRequest="100"
+                Source="{AppThemeBinding Dark=dzone_light_full_logo.png,
+                                         Light=dzone_light_full_logo.png}"
+                VerticalOptions="Center"
+                WidthRequest="130" />
+        </StackLayout>
+    </Shell.TitleView>
 
+    <!--  عناصر البـار\القائمة السفلية  -->
+    <TabBar>
+        <Tab Title="أستكشف" Icon="home">
+            <ShellContent
+                Title="أستكشف"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Icon="home" />
+        </Tab>
+
+        <Tab Title="السلة" Icon="cart">
+            <ShellContent
+                Title="السلة"
+                ContentTemplate="{DataTemplate AuthViews:RegisterView}"
+                Icon="cart" />
+        </Tab>
+
+        <Tab Title="الطلبات" Icon="ordrs">
+            <ShellContent
+                Title="الطلبات"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Icon="ordrs" />
+        </Tab>
+
+        <Tab Title="حسأبكـ" Icon="user_profile">
+            <ShellContent
+                Title="حسأبكـ"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Icon="user_profile" />
+        </Tab>
+    </TabBar>
+
+    <!--  عناصر القائمة الرئيسية للتطبيق  -->
+    <MenuItem x:Name="LoginMenuItem">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <StackLayout
+                    Grid.Column="0"
+                    Margin="10,2.5"
+                    FlowDirection="RightToLeft"
+                    HorizontalOptions="FillAndExpand">
+                    <!--<StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer
+                            x:Name="BtnLogout"
+                            NumberOfTapsRequired="1"
+                            Tapped="BtnLogout_Tapped" />
+                </StackLayout.GestureRecognizers>-->
+                    <Border
+                        Padding="10"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite},
+                                                          Dark={StaticResource Black}}"
+                        FlowDirection="RightToLeft">
+                        <Grid
+                            ColumnDefinitions="auto,*,20"
+                            ColumnSpacing="10"
+                            FlowDirection="RightToLeft">
+                            <Image
+                                Grid.Column="2"
+                                HeightRequest="15"
+                                Source="arrow_up_left.png"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="10" />
+                            <Image
+                                Margin="5"
+                                HeightRequest="20"
+                                Source="home2"
+                                VerticalOptions="CenterAndExpand">
+                                <!--<Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark='Red', Light='Red'}" />
+                            </Image.Behaviors>-->
+                            </Image>
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="تسجيل الدخول"
+                                VerticalOptions="CenterAndExpand"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackLayout>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <!--  Flyout Footer - التصميم السفلي للقائمة  -->
+    <Shell.FlyoutFooterTemplate>
+        <DataTemplate>
+            <StackLayout
+                Margin="0,0,0,0"
+                Padding="20,0,20,0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite},
+                                                  Dark={StaticResource Black}}"
+                HeightRequest="60"
+                VerticalOptions="FillAndExpand">
+
+                <Label
+                    HorizontalOptions="Start"
+                    Text="www.swapay.ly"
+                    VerticalOptions="EndAndExpand" />
+                <Label
+                    FontFamily="Bold"
+                    HorizontalOptions="Start"
+                    Text="Build Number : 1"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutFooterTemplate>
+
+    <!--  Flyout Header  - التصميم العلوي للقائمة  -->
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <StackLayout
+                Margin="0,0,0,20"
+                Padding="20,0,20,0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                  Dark={StaticResource Primary}}"
+                HeightRequest="100"
+                VerticalOptions="FillAndExpand">
+
+                <Image
+                    HeightRequest="75"
+                    HorizontalOptions="StartAndExpand"
+                    Source="{AppThemeBinding Dark=dzone_light_full_logo.png,
+                                             Light=dzone_light_full_logo.png}"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="150" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
 </Shell>

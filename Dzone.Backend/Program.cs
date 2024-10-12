@@ -49,7 +49,6 @@ public class Program
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 6;
 
-
             options.User.RequireUniqueEmail = true;
             options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ د ج ح خ ه ع غ ف ق ث ص ض ذ 12 3 3 4 4 5 5 6 6 7 7 8 8 9 8 9 9 09  ط ك م ن ت ا ل ب ي س ش ظ ز و ة ى لا لا ر ؤ ء ئ أ آ لأ لآ" + "أ آ إ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن  ه  و ؤ ئ ي ء";
 
@@ -85,8 +84,6 @@ public class Program
         });
         //==========================================Identit=====================================================
 
-
-
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGen();
@@ -121,14 +118,13 @@ public class Program
 
         builder.Services.AddTransient<IUserOtpService, UserOtpService>();
 
-
         var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        //if (app.Environment.IsDevelopment())
+        //{
+        //}
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
 
@@ -143,20 +139,3 @@ public class Program
         app.Run();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

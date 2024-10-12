@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Dzone.Mobile.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15,10" Spacing="10">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="مرحــباً معتصم" />
+            <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
+            <Button />
+            <material:TextField
+                Title="رقم الهاتف : +21890XXXXXXX"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="Bold"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Telephone"
+                ReturnType="Next"
+                VerticalOptions="End">
+                <validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+                <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />
+            </material:TextField>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

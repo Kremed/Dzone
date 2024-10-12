@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Dzone.Mobile.Views.AuthViews.RegisterView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+    Title="RegisterView">
+    <ScrollView>
+
+        <VerticalStackLayout Padding="15" Spacing="10">
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="أنشاء حســاب جديد" />
+            <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
+
+            <material:TextField
+                x:Name="TxtUserName"
+                Title="أسم المستخدم:"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Email"
+                ReturnType="Next"
+                VerticalOptions="Start">
+                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+       <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
+            </material:TextField>
+
+            <material:TextField
+                x:Name="TxtEmail"
+                Title="البريد الألكتروني:"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Email"
+                ReturnType="Next"
+                VerticalOptions="Start">
+                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+       <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
+            </material:TextField>
+
+            <material:TextField
+                x:Name="TxtPhone"
+                Title="رقم الهاتف :"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Telephone"
+                ReturnType="Next"
+                VerticalOptions="Start">
+                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+       <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
+            </material:TextField>
+
+            <material:TextField
+                x:Name="TxtPassword"
+                Title="كلمة المرور:"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                IsPassword="True"
+                ReturnType="Next"
+                VerticalOptions="Start">
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+                <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
+            </material:TextField>
+
+            <Button
+                x:Name="BtnRegister"
+                Clicked="BtnRegister_Clicked"
+                Text="تسجيل العضوية" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

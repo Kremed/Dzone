@@ -5,19 +5,22 @@ namespace Dzone.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //(UserManager<MyCustomAppUser> userManager,RoleManager<IdentityRole> roleManager,ITokenService tokenService,IEmailService emailService)
     public class AuthenticationController : ControllerBase
     {
         //يُستخدم لإدارة عمليات المستخدمين مثل التسجيل، تسجيل الدخول، البحث عن المستخدمين، وما إلى ذلك.
         private readonly UserManager<MyCustomAppUser> userManager;
+
         //يُستخدم لإدارة الأدوار في النظام، مثل إضافة أو حذف الأدوار وإسنادها للمستخدمين.
         private readonly RoleManager<IdentityRole> roleManager;
 
         private readonly SignInManager<MyCustomAppUser> signInManager;
+
         //يُستخدم لإدارة رموز التعريف والعضوية في النظام, يمكن أضافة اي خاصة خاصة بالرموز في هذا المستودع.
         private readonly ITokenService tokenService;
+
         //يُستخدم لإدارة أرسال البريد الألكتروني الي المستخدمين او زوار.
         private readonly IEmailService emailService;
+
         private readonly IUserOtpService otpService;
         private readonly DzoneDbContext context;
 
@@ -56,7 +59,7 @@ namespace Dzone.Backend.Controllers
             var result = await userManager.CreateAsync(user, model.password);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
 
             if (model.UserType == "AppUser")
             {
@@ -215,7 +218,6 @@ namespace Dzone.Backend.Controllers
                 if (isValidOtp is false)
                     return BadRequest("فشلت عملية تغير كلمة المرور");
 
-
                 //var GeneratedToken = await userManager.GenerateChangeEmailTokenAsync(user);
                 //var GeneratedToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
                 var GeneratedToken = await userManager.GeneratePasswordResetTokenAsync(user);
@@ -230,8 +232,6 @@ namespace Dzone.Backend.Controllers
             {
                 return Problem(ex.Message);
             }
-
-
         }
 
         [HttpPost("createSystemRoles")]
@@ -252,26 +252,10 @@ namespace Dzone.Backend.Controllers
 
             return Ok();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             // var FindByRoleName = await roleManager.FindByNameAsync("Captain");
 
             //if (FindByRoleName is not null)
             //{
-
             //    FindByRoleName.Name = "[captain]";
 
             //    var UpdateRsult = await roleManager.UpdateAsync(FindByRoleName);
@@ -284,17 +268,13 @@ namespace Dzone.Backend.Controllers
 
             //    UpdateRsult = await roleManager.UpdateAsync(FindByRoleName);
             //}
-
-
         }
-
 
         [HttpPost("createUserLocation"), Authorize(Roles = "AppUser")]
         public async Task<IActionResult> CreateUserLocation([FromBody] CreateLocationContract locationContract)
         {
             try
             {
-                
                 var userNameIdentifier = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userNameIdentifier is null)
@@ -331,7 +311,6 @@ namespace Dzone.Backend.Controllers
             {
                 return Problem(exception.Message);
             }
-
         }
 
         [HttpGet("getUserLocation"), Authorize(Roles = "AppUser")]
