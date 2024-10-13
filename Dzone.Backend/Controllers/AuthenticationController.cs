@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace Dzone.Backend.Controllers
 {
@@ -43,6 +47,10 @@ namespace Dzone.Backend.Controllers
         }
 
         [HttpPost("register")]
+        [SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> Register([FromBody] RegisterContract model)
         {
             var user = new MyCustomAppUser
@@ -88,7 +96,15 @@ namespace Dzone.Backend.Controllers
             return Ok("تم أنشاء المستخدم بنجاح, الرجاء تسجيل دخولك الأن.");
         }
 
+        //================================================================================================================\
+
         [HttpPost("login")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK", typeof(LoginResponce))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, "Status 403 Forbidden", typeof(string))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
+        [SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
         public async Task<IActionResult> Login([FromBody] LoginContract model)
         {
             try
@@ -141,7 +157,12 @@ namespace Dzone.Backend.Controllers
             }
         }
 
+        //================================================================================================================
+
         [HttpPost("confirmEmail")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailContract model)
         {
             try
@@ -175,7 +196,12 @@ namespace Dzone.Backend.Controllers
             }
         }
 
+        //================================================================================================================
+
         [HttpPost("forgotPassword")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgetPasswordRequest model)
         {
             try
@@ -203,7 +229,12 @@ namespace Dzone.Backend.Controllers
             }
         }
 
+        //================================================================================================================
+
         [HttpPost("restPassword")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> RestPassword([FromBody] RestPasswordRequest model)
         {
             try
@@ -234,7 +265,12 @@ namespace Dzone.Backend.Controllers
             }
         }
 
-        [HttpPost("createSystemRoles")]
+        //================================================================================================================
+
+        [HttpPost("createSystemRoles"), Authorize("SystemAdmin")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> CreateSystemRoles()
         {
             var GetAllRolesAsync = await roleManager.Roles.ToListAsync();
@@ -270,7 +306,12 @@ namespace Dzone.Backend.Controllers
             //}
         }
 
+        //================================================================================================================
+
         [HttpPost("createUserLocation"), Authorize(Roles = "AppUser")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> CreateUserLocation([FromBody] CreateLocationContract locationContract)
         {
             try
@@ -313,7 +354,12 @@ namespace Dzone.Backend.Controllers
             }
         }
 
+        //================================================================================================================
+
         [HttpGet("getUserLocation"), Authorize(Roles = "AppUser")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> GetUserLocation()
         {
             try

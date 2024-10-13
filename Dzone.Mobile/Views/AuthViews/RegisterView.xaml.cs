@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Views;
 
 namespace Dzone.Mobile.Views.AuthViews;
 
@@ -44,12 +45,32 @@ public partial class RegisterView : ContentPage
             }
             else
             {
-                await Shell.Current.GoToAsync(nameof(ConfirmOtpView));
+                var parameters = new Dictionary<string, object>
+                {
+                    { "username", contract.name },
+                    { "email", contract.email },
+                    { "otpType", "ConfirmEmail" },
+                    { "title", $"لقد تم أرسال رمز تحقق لمرة واحدة الي بريدكـ الألكتروني : {contract.email}, الرجاء التحقق من بريدك الالكتروني وتـأكيد رمز التحقق OTP في الحقل المخصص لتفعيل حسابكـ" }
+                };
+
+                await Shell.Current.GoToAsync($"../{nameof(ConfirmOtpView)}", parameters);
+                //await Shell.Current.GoToAsync($"{nameof(ConfirmOtpView)}?username={contract.name}");
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            await Toast.Make(ex.Message).Show();
         }
+    }
+
+    private async void BtnResetPassword_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"../{nameof(ForggetPasswordView)}");
+    }
+
+    private async void BtnLogin_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PopModalAsync();
+        //await Shell.Current.GoToAsync($"{nameof(LoginView)}");
     }
 }

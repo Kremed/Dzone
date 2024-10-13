@@ -17,6 +17,10 @@ global using System.Net;
 global using System.Net.Mail;
 global using System.Security.Claims;
 global using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace Dzone.Backend;
 
@@ -85,8 +89,41 @@ public class Program
         //==========================================Identit=====================================================
 
         builder.Services.AddEndpointsApiExplorer();
+       
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Dzone API Gateway",
+                Version = "v1",
+                Description = "DZone’s API Gateway is an architectural component that simplifies communication between clients and microservices by centralizing routing, security, and protocol management. It helps improve security by authenticating requests before they reach backend services, offloading traffic management, and enabling advanced features like rate limiting, protocol translation, caching, and load balancing. This layer ensures that clients don’t need to handle the complexities of service discovery or multiple APIs and protocols independently, leading to better performance, security, and scalability in distributed systems​\r\n.",
+            });
 
-        builder.Services.AddSwaggerGen();
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                BearerFormat = "JWT",
+                Description = "Enter 'Bearer [space] and then your token'",
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+
+            //var xmlFile = $"ApiDocumentation.xml";
+            //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            //options.IncludeXmlComments(xmlPath);
+        });
 
         //Objects : instance-based injection or factory method injection=>
         builder.Services.AddTransient<MailMessage>(provider =>

@@ -16,7 +16,7 @@
                 FontSize="20"
                 Text="مرحــباً معتصم" />
             <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
-            <Button />
+            <Button Clicked="Button_Clicked" />
             <material:TextField
                 Title="رقم الهاتف : +21890XXXXXXX"
                 AllowClear="True"

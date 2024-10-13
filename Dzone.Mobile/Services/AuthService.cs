@@ -1,9 +1,25 @@
-﻿using ErrorOr;
+﻿namespace Dzone.Mobile.Services;
 
-namespace Dzone.Mobile.Services;
-
-internal class AuthService(IRestClient client) : IAuthService
+public class AuthService(IRestClient client) : IAuthService
 {
+    public async Task<bool> LoginAsync(LoginContract contract)
+    {
+        try
+        {
+            var request = new RestRequest("Authentication/login", Method.Post);
+
+            request.AddBody(contract);
+
+            var response = await client.ExecuteAsync(request);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return true;
+        }
+    }
+
     public async Task<ErrorOr<bool>> CreateUserAsync(RegisterContract contract)
     {
         try
@@ -28,21 +44,66 @@ internal class AuthService(IRestClient client) : IAuthService
         }
     }
 
-    public async Task<string> LoginAsync(LoginContract contract)
+    public async Task<ErrorOr<bool>> ConfirmEmail(ConfirmEmailContract contract)
     {
         try
         {
-            var request = new RestRequest("Authentication/login", Method.Post);
+            var request = new RestRequest("Authentication/confirmEmail", Method.Post);
 
             request.AddBody(contract);
 
             var response = await client.ExecuteAsync(request);
 
-            return "";
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return Error.Failure(response.StatusCode.ToString(), response.Content!);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return "";
+            return Error.Unexpected(ex.Message);
+        }
+    }
+
+    public async Task<ErrorOr<bool>> ForgotPassword(ForgetPasswordRequest contract)
+    {
+        try
+        {
+            var request = new RestRequest("Authentication/forgotPassword", Method.Post);
+
+            request.AddBody(contract);
+
+            var response = await client.ExecuteAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return Error.Failure(response.StatusCode.ToString(), response.Content!);
+        }
+        catch (Exception ex)
+        {
+            return Error.Unexpected(ex.Message);
+        }
+    }
+
+    public async Task<ErrorOr<bool>> RestPassword(RestPasswordRequest contract)
+    {
+        try
+        {
+            var request = new RestRequest("Authentication/restPassword", Method.Post);
+
+            request.AddBody(contract);
+
+            var response = await client.ExecuteAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return Error.Failure(response.StatusCode.ToString(), response.Content!);
+        }
+        catch (Exception ex)
+        {
+            return Error.Unexpected(ex.Message);
         }
     }
 }

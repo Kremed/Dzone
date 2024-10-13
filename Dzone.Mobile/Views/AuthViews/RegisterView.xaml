@@ -11,11 +11,13 @@
     <ScrollView>
 
         <VerticalStackLayout Padding="15" Spacing="10">
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                Text="أنشاء حســاب جديد" />
-            <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
+            <StackLayout Spacing="0">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="أنشاء حســاب جديد" />
+                <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
+            </StackLayout>
 
             <material:TextField
                 x:Name="TxtUserName"
@@ -73,6 +75,7 @@
                 IsPassword="True"
                 ReturnType="Next"
                 VerticalOptions="Start">
+
                 <material:TextField.Attachments>
                     <material:TextFieldPasswordShowHideAttachment />
                 </material:TextField.Attachments>
@@ -84,6 +87,30 @@
                 x:Name="BtnRegister"
                 Clicked="BtnRegister_Clicked"
                 Text="تسجيل العضوية" />
+
+            <Button
+                x:Name="BtnResetPassword"
+                Margin="0,20,0,10"
+                Padding="20,0,10,0"
+                BackgroundColor="Transparent"
+                Clicked="BtnResetPassword_Clicked"
+                FontAttributes="Bold"
+                HeightRequest="20"
+                HorizontalOptions="Start"
+                Text="نسيت كلمة المرور !؟"
+                TextColor="{StaticResource Primary}" />
+
+            <Button
+                x:Name="BtnLogin"
+                Margin="0,0,0,10"
+                Padding="20,0,10,0"
+                BackgroundColor="Transparent"
+                Clicked="BtnLogin_Clicked"
+                FontAttributes="Bold"
+                HeightRequest="20"
+                HorizontalOptions="Start"
+                Text="تمتلك حســاب؟ تسجيل الدخول"
+                TextColor="{StaticResource Primary}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

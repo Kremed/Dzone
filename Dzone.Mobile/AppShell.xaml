@@ -59,7 +59,7 @@
         <Tab Title="السلة" Icon="cart">
             <ShellContent
                 Title="السلة"
-                ContentTemplate="{DataTemplate AuthViews:RegisterView}"
+                ContentTemplate="{DataTemplate local:MainPage}"
                 Icon="cart" />
         </Tab>
 

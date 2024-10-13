@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dzone.Backend</name>
+    </assembly>
+    <members>
+        <member name="T:Dzone.Backend.Migrations.AddIdentitySheme">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.Migrations.AddIdentitySheme.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.Migrations.AddIdentitySheme.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.Migrations.AddIdentitySheme.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Dzone.Backend.Migrations.AddIdentityTables">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.Migrations.AddIdentityTables.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.Migrations.AddIdentityTables.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.Migrations.AddIdentityTables.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dzone.Backend.ServicesInterfaces.IEmailService.SendConfirmationEmail(System.String,System.String)">
+            <summary>
+            Sends a confirmation email containing the provided OTP (One-Time Password) to the specified email address.
+            </summary>
+            <param name="otp">The OTP code to be included in the email body.</param>
+            <param name="email">The recipient's email address to which the OTP will be sent.</param>
+            <returns>
+            Returns a <see cref="T:System.Boolean"/> indicating whether the email was successfully sent.
+            Returns <c>true</c> if the email was sent successfully; otherwise, <c>false</c> if an exception occurred during the sending process.
+            </returns>
+            <remarks>
+            This method uses the configured <see cref="T:System.Net.Mail.SmtpClient"/> to send an email containing the OTP.
+            If an exception occurs during the process, it catches the exception and returns <c>false</c>.
+            </remarks>
+        </member>
+        <member name="M:Dzone.Backend.ServicesInterfaces.IEmailService.SendResetPasswordEmail(System.String,System.String)">
+            <summary>
+            Sends a password reset email containing the provided OTP (One-Time Password) to the specified email address.
+            The email includes a temporary password reset code in Arabic.
+            </summary>
+            <param name="otp">The OTP code to be included in the email body for password reset.</param>
+            <param name="email">The recipient's email address to which the OTP will be sent.</param>
+            <returns>
+            Returns a <see cref="T:System.Boolean"/> indicating whether the email was successfully sent.
+            Returns <c>true</c> if the email was sent successfully; otherwise, <c>false</c> if an exception occurred during the sending process.
+            </returns>
+            <remarks>
+            This method uses the configured <see cref="T:System.Net.Mail.SmtpClient"/> to send an email containing the OTP for password reset.
+            The email body includes a formatted message in Arabic, informing the user of their temporary reset code. 
+            If an exception occurs during the process, the method catches the exception and returns <c>false</c>.
+            </remarks>
+        </member>
+        <member name="M:Dzone.Backend.ServicesInterfaces.IUserOtpService.CreateEmailOtpCode(System.String)">
+            <summary>
+            Generates a random OTP (One-Time Password) for email verification and stores it in the database 
+            with relevant information, such as the user ID, creation time, and OTP type.
+            </summary>
+            <param name="userID">The unique identifier of the user for whom the OTP is being generated.</param>
+            <returns>
+            Returns the generated OTP code as an integer, which can be used for email verification.
+            </returns>
+            <remarks>
+            This method generates a random OTP, creates a new <see cref="T:Dzone.Models.Shered.Otp"/> entity, and saves it in the database.
+            The OTP is associated with the provided <paramref name="userID"/> and is used for email verification, with the type set to "Email."
+            </remarks>
+        </member>
+        <member name="M:Dzone.Backend.ServicesInterfaces.IUserOtpService.IsValidEmailOtpCode(System.Int32,System.String)">
+            <summary>
+            Validates the provided OTP (One-Time Password) for email verification against the most recently generated OTP
+            for the specified user. It checks the OTP code and ensures it has not expired (within the last 10 minutes).
+            </summary>
+            <param name="code">The OTP code entered by the user for email verification.</param>
+            <param name="userID">The unique identifier of the user requesting the email verification.</param>
+            <returns>
+            Returns a <see cref="T:System.Boolean"/> indicating whether the provided OTP is valid. 
+            It returns <c>true</c> if the OTP matches the most recent one and is within the allowed time window; otherwise, <c>false</c>.
+            </returns>
+            <remarks>
+            This method queries the database for the latest OTP associated with the user for email verification,
+            checks if the OTP matches the provided code, and ensures that the OTP is still valid (created within the last 10 minutes).
+            If the OTP is expired, missing, or doesn't match, the method returns <c>false</c>. Any exceptions will also result in a <c>false</c> return value.
+            </remarks>
+        </member>
+        <member name="M:Dzone.Backend.ServicesInterfaces.IUserOtpService.CreateRestPasswordOtpCode(System.String)">
+            <summary>
+            Generates a random OTP (One-Time Password) for resetting the password of a user 
+            and stores it in the database with relevant information, such as the user ID, 
+            creation time, and OTP type.
+            </summary>
+            <param name="userID">The unique identifier of the user requesting the password reset.</param>
+            <returns>
+            Returns the generated OTP code as an integer, which can be used for password reset verification.
+            </returns>
+            <remarks>
+            This method generates a random OTP, creates a new <see cref="T:Dzone.Models.Shered.Otp"/> entity, and saves it in the database.
+            The OTP is associated with the provided <paramref name="userID"/> and has a type of "Reset Password."
+            </remarks>
+        </member>
+        <member name="M:Dzone.Backend.ServicesInterfaces.IUserOtpService.IsValidRestPasswordOtpCode(System.Int32,System.String)">
+            <summary>
+            Validates the provided OTP (One-Time Password) for password reset against the most recently generated OTP
+            for the specified user. It checks the OTP code and ensures it has not expired (within the last 10 minutes).
+            </summary>
+            <param name="code">The OTP code entered by the user for password reset.</param>
+            <param name="userID">The unique identifier of the user requesting the password reset.</param>
+            <returns>
+            Returns a <see cref="T:System.Boolean"/> indicating whether the provided OTP is valid. 
+            It returns <c>true</c> if the OTP matches the most recent one and is within the allowed time window; otherwise, <c>false</c>.
+            </returns>
+            <remarks>
+            This method queries the database for the latest OTP associated with the user, verifies that the OTP matches, 
+            and ensures the OTP has not expired (within a 10-minute validity window).
+            Any exceptions encountered during the operation will result in a <c>false</c> return value.
+            </remarks>
+        </member>
+    </members>
+</doc>

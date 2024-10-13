@@ -1,12 +1,64 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Dzone.Mobile.Views.AuthViews.ConfirmOtpView"
-             Title="ConfirmOtpView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="Dzone.Mobile.Views.AuthViews.ConfirmOtpView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+    Title="ConfirmOtpView">
+    <ScrollView>
+
+        <VerticalStackLayout Padding="15" Spacing="10">
+            <StackLayout Spacing="0">
+                <Label
+                    x:Name="LblUserName"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="مرحبــأ بكـ" />
+                <Label x:Name="LblTitle" Text="" />
+            </StackLayout>
+            <material:TextField
+                x:Name="TxtOneTimePassword"
+                Title="ادخل رمز التحقق OTP:"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Telephone"
+                MaxLength="6"
+                ReturnType="Next"
+                VerticalOptions="Start">
+                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+                    <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
+            </material:TextField>
+
+            <material:TextField
+                x:Name="TxtNewPassword"
+                Title="كلمة المرور الجديدة:"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="False"
+                Keyboard="Email"
+                ReturnType="Next"
+                VerticalOptions="Start">
+
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
+<validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
+            </material:TextField>
+            <Button
+                x:Name="BtnConfirmOtp"
+                Margin="0,20"
+                Clicked="BtnConfirmOtp_Clicked"
+                Text="التحقق وتأكيد العضوية" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

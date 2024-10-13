@@ -14,6 +14,8 @@ global using Dzone.Shared.Contracts.Authentication;
 global using Dzone.Mobile.Services;
 global using ErrorOr;
 
+global using CommunityToolkit.Maui.Alerts;
+
 namespace Dzone.Mobile
 {
     public static class MauiProgram
