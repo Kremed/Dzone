@@ -53,6 +53,7 @@ namespace Dzone.Backend.Controllers
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> Register([FromBody] RegisterContract model)
         {
+            Convert.ToInt16("aaaa");
             var user = new MyCustomAppUser
             {
                 UserName = model.name,
@@ -99,12 +100,15 @@ namespace Dzone.Backend.Controllers
         //================================================================================================================\
 
         [HttpPost("login")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK", typeof(LoginResponce))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
-        [SwaggerResponse(StatusCodes.Status403Forbidden, "Status 403 Forbidden", typeof(string))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
-        [SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
+        //[SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK", typeof(LoginResponce))]
+        //[SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
+        //[SwaggerResponse(StatusCodes.Status403Forbidden, "Status 403 Forbidden", typeof(string))]
+        //[SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
+        //[SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
+        //[SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
+
+        [ProducesResponseType(typeof(LoginResponce), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Login([FromBody] LoginContract model)
         {
             try
@@ -309,7 +313,7 @@ namespace Dzone.Backend.Controllers
         //================================================================================================================
 
         [HttpPost("createUserLocation"), Authorize(Roles = "AppUser")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(statusCode: StatusCodes.Status200OK, description: "Status 200 OK", type: typeof(Category))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> CreateUserLocation([FromBody] CreateLocationContract locationContract)

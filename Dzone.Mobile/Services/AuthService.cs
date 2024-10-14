@@ -32,11 +32,6 @@ public class AuthService(IRestClient client) : IAuthService
 
             return response.IsSuccessStatusCode ? true :
                 Error.Failure(response.StatusCode.ToString(), response.Content!);
-
-            if (response.IsSuccessStatusCode)
-                return true;
-            else
-                return Error.Failure(response.StatusCode.ToString(), response.Content!);
         }
         catch (Exception ex)
         {

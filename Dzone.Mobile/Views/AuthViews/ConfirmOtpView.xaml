@@ -11,6 +11,7 @@
     <ScrollView>
 
         <VerticalStackLayout Padding="15" Spacing="10">
+
             <StackLayout Spacing="0">
                 <Label
                     x:Name="LblUserName"
@@ -19,6 +20,7 @@
                     Text="مرحبــأ بكـ" />
                 <Label x:Name="LblTitle" Text="" />
             </StackLayout>
+
             <material:TextField
                 x:Name="TxtOneTimePassword"
                 Title="ادخل رمز التحقق OTP:"
@@ -30,10 +32,7 @@
                 Keyboard="Telephone"
                 MaxLength="6"
                 ReturnType="Next"
-                VerticalOptions="Start">
-                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
-                    <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
-            </material:TextField>
+                VerticalOptions="Start" />
 
             <material:TextField
                 x:Name="TxtNewPassword"
@@ -51,9 +50,8 @@
                 <material:TextField.Attachments>
                     <material:TextFieldPasswordShowHideAttachment />
                 </material:TextField.Attachments>
-                <!--<validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
-<validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />-->
             </material:TextField>
+
             <Button
                 x:Name="BtnConfirmOtp"
                 Margin="0,20"

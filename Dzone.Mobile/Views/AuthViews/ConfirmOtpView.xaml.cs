@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 
 namespace Dzone.Mobile.Views.AuthViews;
@@ -49,21 +50,37 @@ public partial class ConfirmOtpView : ContentPage
     {
         try
         {
-            if (string.IsNullOrEmpty(TxtOneTimePassword.Text))
-            {
-                await Toast.Make("الرجاء كتابة رمز التحقق والمحاولة مرة اخرئ").Show();
-                return;
-            }
+            //if (string.IsNullOrEmpty(TxtOneTimePassword.Text))
+            //{
+            //    await Toast.Make("الرجاء كتابة رمز التحقق والمحاولة مرة اخرئ").Show();
+            //    return;
+            //}
 
             if (otpType == "ConfirmEmail")
             {
-                var Contract = new ConfirmEmailContract
+                var contract = new ConfirmEmailContract
                 {
                     code = Convert.ToInt32(TxtOneTimePassword.Text),
                     email = emailAddress
                 };
 
-                var IsEmailConfirmedResult = await authService.ConfirmEmail(Contract);
+                var validationResults = new List<ValidationResult>();
+
+                var context = new ValidationContext(contract);
+
+                bool isValid = Validator.TryValidateObject(contract, context, validationResults, true);
+
+                if (!isValid)
+                {
+                    string errorMessage = validationResults.FirstOrDefault()?.ErrorMessage!;
+
+                    await Toast.Make(errorMessage).Show();
+
+                    return;
+                }
+
+
+                var IsEmailConfirmedResult = await authService.ConfirmEmail(contract);
 
                 if (IsEmailConfirmedResult.IsError)
                 {
@@ -75,14 +92,30 @@ public partial class ConfirmOtpView : ContentPage
             }
             else if (otpType == "RestPassword")
             {
-                var Contract = new RestPasswordRequest
+                var contract = new RestPasswordRequest
                 {
                     otpCode = Convert.ToInt32(TxtOneTimePassword.Text),
                     email = emailAddress,
                     newPassword = TxtNewPassword.Text
                 };
 
-                var IsEmailConfirmedResult = await authService.RestPassword(Contract);
+                var validationResults = new List<ValidationResult>();
+
+                var context = new ValidationContext(contract);
+
+                bool isValid = Validator.TryValidateObject(contract, context, validationResults, true);
+
+                if (!isValid)
+                {
+                    string errorMessage = validationResults.FirstOrDefault()?.ErrorMessage!;
+
+                    await Toast.Make(errorMessage).Show();
+
+                    return;
+                }
+
+
+                var IsEmailConfirmedResult = await authService.RestPassword(contract);
 
                 if (IsEmailConfirmedResult.IsError)
                 {

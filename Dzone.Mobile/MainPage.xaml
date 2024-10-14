@@ -3,33 +3,90 @@
     x:Class="Dzone.Mobile.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:Dzone.Mobile.Converters"
     xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:Dzone.Models.Shered;assembly=Dzone.Shared"
+    xmlns:sk="clr-namespace:Maui.Skeleton;assembly=Maui.Skeleton"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="15,10" Spacing="10">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converters:IsActiveBoolToStringConverter x:Key="BoolToStringConverter" />
+            <Converters:IsActiveBoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                Text="مرحــباً معتصم" />
-            <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
-            <Button Clicked="Button_Clicked" />
-            <material:TextField
-                Title="رقم الهاتف : +21890XXXXXXX"
-                AllowClear="True"
-                CornerRadius="0"
-                FlowDirection="RightToLeft"
-                FontFamily="Bold"
+    <ScrollView>
+        <VerticalStackLayout Padding="15,10" Spacing="0">
+            <!--  القسم العلوي الترحيبي  -->
+            <StackLayout>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="مرحــباً معتصم" />
+                <Label Text="مرحبا بعودتكـ الي تطبيقـ دي زون!" />
+            </StackLayout>
+
+            <!--  قائمة التصنيفات  -->
+            <CollectionView
+                x:Name="CategoryCollectionView"
                 HorizontalOptions="FillAndExpand"
-                Keyboard="Telephone"
-                ReturnType="Next"
-                VerticalOptions="End">
-                <validation:RequiredValidation Message="رقم الواتساب مطلوب لاكمال عملية التحقق" />
-                <validation:RegexValidation Message="الرجاء كتابة رقم هاتف صحيح: +218920000000" Pattern="^\+(?:[0-9] ?){6,14}[0-9]$" />
-            </material:TextField>
+                SelectionMode="Single"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Category">
+                        <Label Text="{Binding IsActive, Converter={StaticResource BoolToStringConverter}}" TextColor="{Binding IsActive, Converter={StaticResource BoolToColorConverter}}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout
+                            HeightRequest="2000"
+                            Spacing="10"
+                            VerticalOptions="FillAndExpand">
+
+                            <Border
+                                Grid.Column="1"
+                                sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                            Interval='500'}"
+                                sk:Skeleton.BackgroundColor="#c6c6c5"
+                                sk:Skeleton.IsBusy="True"
+                                sk:Skeleton.IsParent="True"
+                                HeightRequest="100" />
+                            <Border
+                                Grid.Column="1"
+                                sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                            Interval='500'}"
+                                sk:Skeleton.BackgroundColor="#c6c6c5"
+                                sk:Skeleton.IsBusy="True"
+                                sk:Skeleton.IsParent="True"
+                                HeightRequest="100" />
+                            <Border
+                                Grid.Column="1"
+                                sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                            Interval='500'}"
+                                sk:Skeleton.BackgroundColor="#c6c6c5"
+                                sk:Skeleton.IsBusy="True"
+                                sk:Skeleton.IsParent="True"
+                                HeightRequest="100" />
+
+                            <Border
+                                Grid.Column="1"
+                                sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                            Interval='500'}"
+                                sk:Skeleton.BackgroundColor="#c6c6c5"
+                                sk:Skeleton.IsBusy="True"
+                                sk:Skeleton.IsParent="True"
+                                HeightRequest="100" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <!--  قائمة الأصنــاف  -->
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

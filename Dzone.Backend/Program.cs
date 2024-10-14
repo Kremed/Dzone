@@ -89,7 +89,7 @@ public class Program
         //==========================================Identit=====================================================
 
         builder.Services.AddEndpointsApiExplorer();
-       
+
         builder.Services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo
@@ -119,6 +119,8 @@ public class Program
                     Array.Empty<string>()
                 }
             });
+
+            options.EnableAnnotations();
 
             //var xmlFile = $"ApiDocumentation.xml";
             //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

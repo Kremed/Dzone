@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:AuthViews="clr-namespace:Dzone.Mobile.Views.AuthViews"
     xmlns:local="clr-namespace:Dzone.Mobile"
-    xmlns:views="clr-namespace:Dzone.Mobile.Views"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Dzone.Mobile"
     Padding="10"
     BackgroundColor="{AppThemeBinding Dark={StaticResource Primary},
@@ -79,7 +79,8 @@
     </TabBar>
 
     <!--  عناصر القائمة الرئيسية للتطبيق  -->
-    <MenuItem x:Name="LoginMenuItem">
+    <!--  Cart  -->
+    <MenuItem x:Name="GoToCart">
         <Shell.MenuItemTemplate>
             <DataTemplate>
                 <StackLayout
@@ -87,12 +88,7 @@
                     Margin="10,2.5"
                     FlowDirection="RightToLeft"
                     HorizontalOptions="FillAndExpand">
-                    <!--<StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer
-                            x:Name="BtnLogout"
-                            NumberOfTapsRequired="1"
-                            Tapped="BtnLogout_Tapped" />
-                </StackLayout.GestureRecognizers>-->
+
                     <Border
                         Padding="10"
                         BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite},
@@ -104,18 +100,101 @@
                             FlowDirection="RightToLeft">
                             <Image
                                 Grid.Column="2"
-                                HeightRequest="15"
-                                Source="arrow_up_left.png"
+                                HeightRequest="20"
+                                Source="goarrowo"
                                 VerticalOptions="CenterAndExpand"
-                                WidthRequest="10" />
+                                WidthRequest="20">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Primary}}" />
+                                </Image.Behaviors>
+                            </Image>
                             <Image
                                 Margin="5"
                                 HeightRequest="20"
-                                Source="home2"
+                                Source="cart"
                                 VerticalOptions="CenterAndExpand">
-                                <!--<Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark='Red', Light='Red'}" />
-                            </Image.Behaviors>-->
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Primary}}" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="سلة التسوق"
+                                VerticalOptions="CenterAndExpand"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackLayout>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <!--  Line  -->
+    <MenuItem>
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <StackLayout
+                    Grid.Column="0"
+                    Margin="10,5"
+                    HorizontalOptions="FillAndExpand">
+                    <Line
+                        HorizontalOptions="CenterAndExpand"
+                        Stroke="{AppThemeBinding Dark={StaticResource Gray600},
+                                                 Light={StaticResource Gray100}}"
+                        X1="400"
+                        X2="0"
+                        Y1="0"
+                        Y2="0" />
+                </StackLayout>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <!--  عناصر القائمة الرئيسية للتطبيق  -->
+    <!--  Login  -->
+    <MenuItem x:Name="LoginMenuItem">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <StackLayout
+                    Grid.Column="0"
+                    Margin="10,2.5"
+                    FlowDirection="RightToLeft"
+                    HorizontalOptions="FillAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            x:Name="BtnLogout"
+                            NumberOfTapsRequired="1"
+                            Tapped="BtnLogout_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                    <Border
+                        Padding="10"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite},
+                                                          Dark={StaticResource Black}}"
+                        FlowDirection="RightToLeft">
+                        <Grid
+                            ColumnDefinitions="auto,*,20"
+                            ColumnSpacing="10"
+                            FlowDirection="RightToLeft">
+                            <Image
+                                Grid.Column="2"
+                                HeightRequest="20"
+                                Source="goarrowo"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="20">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Primary}}" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Image
+                                Margin="5"
+                                HeightRequest="20"
+                                Source="user_profile"
+                                VerticalOptions="CenterAndExpand">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Primary}}" />
+                                </Image.Behaviors>
                             </Image>
                             <Label
                                 Grid.Column="1"
@@ -144,7 +223,7 @@
 
                 <Label
                     HorizontalOptions="Start"
-                    Text="www.swapay.ly"
+                    Text="www.Dzone.ly"
                     VerticalOptions="EndAndExpand" />
                 <Label
                     FontFamily="Bold"

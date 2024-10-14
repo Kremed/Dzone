@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
 
 namespace Dzone.Mobile.Views.AuthViews;
 
@@ -16,16 +17,33 @@ public partial class ForggetPasswordView : ContentPage
     {
         try
         {
-            if (string.IsNullOrEmpty(TxtEmail.Text))
-            {
-                await Toast.Make("الرجاء ادخال البريد الألكتروني, اعادة المحاولة").Show();
-                return;
-            }
+            //if (string.IsNullOrEmpty(TxtEmail.Text))
+            //{
+            //    await Toast.Make("الرجاء ادخال البريد الألكتروني, اعادة المحاولة").Show();
+            //    return;
+            //}
 
             ForgetPasswordRequest contract = new()
             {
                 email = TxtEmail.Text
             };
+
+            var validationResults = new List<ValidationResult>();
+
+            var context = new ValidationContext(contract);
+
+            bool isValid = Validator.TryValidateObject(contract, context, validationResults, true);
+
+            if (!isValid)
+            {
+                string errorMessage = validationResults.FirstOrDefault()?.ErrorMessage!;
+
+                await Toast.Make(errorMessage).Show();
+
+                return;
+            }
+
+
 
             var result = await authService.ForgotPassword(contract);
 

@@ -1,4 +1,5 @@
-﻿namespace Dzone.Mobile
+﻿
+namespace Dzone.Mobile
 {
     public partial class AppShell : Shell
     {
@@ -6,6 +7,8 @@
         {
             InitializeComponent();
 
+
+            
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
 
             //Register Auth Views Route =>
@@ -31,6 +34,20 @@
             }
             catch
             {
+            }
+        }
+
+        private async void BtnLogout_Tapped(object sender, TappedEventArgs e)
+        {
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(LoginView), true);
+
+                Shell.Current.FlyoutIsPresented = false;
+            }
+            catch (Exception ex)
+            {
+                await Toast.Make(ex.Message).Show();
             }
         }
     }

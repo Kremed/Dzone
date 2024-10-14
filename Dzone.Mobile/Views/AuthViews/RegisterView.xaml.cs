@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Views;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dzone.Mobile.Views.AuthViews;
 
@@ -18,14 +16,14 @@ public partial class RegisterView : ContentPage
     {
         try
         {
-            if (string.IsNullOrEmpty(TxtEmail.Text) ||
-                string.IsNullOrEmpty(TxtPassword.Text) ||
-                string.IsNullOrEmpty(TxtUserName.Text) ||
-                string.IsNullOrEmpty(TxtPhone.Text))
-            {
-                await Toast.Make("الرجاء تعبئة وملاء جميع الحقول.").Show();
-                return;
-            }
+            //if (string.IsNullOrEmpty(TxtEmail.Text) ||
+            //    string.IsNullOrEmpty(TxtPassword.Text) ||
+            //    string.IsNullOrEmpty(TxtUserName.Text) ||
+            //    string.IsNullOrEmpty(TxtPhone.Text))
+            //{
+            //    await Toast.Make("الرجاء تعبئة وملاء جميع الحقول.").Show();
+            //    return;
+            //}
 
             RegisterContract contract = new()
             {
@@ -35,6 +33,27 @@ public partial class RegisterView : ContentPage
                 password = TxtPassword.Text,
                 UserType = "AppUser",
             };
+
+            // إنشاء قائمة لتخزين نتائج التحقق من صحة البيانات.
+            // تحتوي كل نتيجة على معلومات حول الأخطاء التي قد تحدث أثناء التحقق.
+            var validationResults = new List<ValidationResult>();
+
+            // إنشاء سياق للتحقق من صحة الكائن (contract).
+            // يتم استخدام هذا السياق لتحديد الكائن الذي يتم التحقق من صحته وإعداداته.
+            var context = new ValidationContext(contract);
+
+            // محاولة التحقق من صحة كائن العقد باستخدام السياق وقائمة نتائج التحقق.
+            // المعامل الأخير (true) يُمكّن التحقق من خصائص الكائن الفرعية أيضًا.
+            bool isValid = Validator.TryValidateObject(contract, context, validationResults, true);
+
+            if (!isValid)
+            {
+                string errorMessage = validationResults.FirstOrDefault()?.ErrorMessage!;
+
+                await Toast.Make(errorMessage).Show();
+
+                return;
+            }
 
             var result = await authService.CreateUserAsync(contract);
 

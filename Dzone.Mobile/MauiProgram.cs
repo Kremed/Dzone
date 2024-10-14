@@ -13,7 +13,7 @@ global using Dzone.Shared.Contracts.Products;
 global using Dzone.Shared.Contracts.Authentication;
 global using Dzone.Mobile.Services;
 global using ErrorOr;
-
+global using Dzone.Models.Shered;
 global using CommunityToolkit.Maui.Alerts;
 
 namespace Dzone.Mobile
@@ -60,6 +60,7 @@ namespace Dzone.Mobile
             });
 
             builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddSingleton<IProductsService, ProductsService>();
 
             //Add Main Views to IoC=>
             builder.Services.AddTransient<AppShell>();

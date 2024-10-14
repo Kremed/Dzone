@@ -63,6 +63,7 @@
 	  <None Remove="Resources\Images\dzone_color_logo.png" />
 	  <None Remove="Resources\Images\dzone_light_full_logo.png" />
 	  <None Remove="Resources\Images\dzone_light_logo.png" />
+	  <None Remove="Resources\Images\goarrowo.svg" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\home2.svg" />
 	  <None Remove="Resources\Images\location.svg" />
@@ -76,9 +77,11 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
 		<PackageReference Include="ErrorOr" Version="2.0.1" />
 		<PackageReference Include="FreakyEffects" Version="0.1.2" />
+		<PackageReference Include="HorusStudio.Maui.Skeleton" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="RestSharp" Version="112.1.0" />
 		<PackageReference Include="UraniumUI" Version="2.10.2" />
 		<PackageReference Include="UraniumUI.Material" Version="2.10.2" />

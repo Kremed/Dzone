@@ -1,12 +1,88 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Dzone.Mobile.Views.AuthViews.LoginView"
-             Title="LoginView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="Dzone.Mobile.Views.AuthViews.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+    Title="LoginView">
+    <!--
+        Shell.FlyoutItemIsVisible="False"
+        Shell.NavBarIsVisible="False"
+        Shell.TabBarIsVisible="False"
+    -->
+    <ScrollView>
+
+        <VerticalStackLayout Padding="15" Spacing="10">
+            <StackLayout Spacing="0">
+                <Label
+                    x:Name="LblUserName"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="تسجيل الدخول" />
+                <Label x:Name="LblTitle" Text="تسوق وانت من حوشك مع تطبيق دي زون" />
+            </StackLayout>
+
+            <material:TextField
+                x:Name="TxtEmail"
+                Title="البريد الألكتروني:"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Telephone"
+                MaxLength="6"
+                ReturnType="Next"
+                VerticalOptions="Start" />
+
+            <material:TextField
+                x:Name="TxtPassword"
+                Title="كلمة المرور :"
+                AllowClear="True"
+                CornerRadius="0"
+                FlowDirection="RightToLeft"
+                FontFamily="MyFont"
+                HorizontalOptions="FillAndExpand"
+                Keyboard="Email"
+                ReturnType="Next"
+                VerticalOptions="Start">
+
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+            </material:TextField>
+
+            <Button
+                x:Name="BtnLogin"
+                Margin="0,20"
+                Clicked="BtnLogin_Clicked"
+                Text="تسجيل الدخول" />
+
+            <Button
+                x:Name="BtnResetPassword"
+                Padding="20,0,10,0"
+                BackgroundColor="Transparent"
+                Clicked="BtnResetPassword_Clicked"
+                FontAttributes="Bold"
+                HeightRequest="25"
+                HorizontalOptions="Start"
+                Text="نسيت كلمة المرور !؟"
+                TextColor="{StaticResource Primary}" />
+
+            <Button
+                x:Name="BtnRegister"
+                Margin="0,0,0,10"
+                Padding="20,0,10,0"
+                BackgroundColor="Transparent"
+                Clicked="BtnRegister_Clicked"
+                FontAttributes="Bold"
+                HeightRequest="25"
+                HorizontalOptions="Start"
+                Text="لا تمتلك حســاب؟ أنشاء جديد"
+                TextColor="{StaticResource Primary}" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
