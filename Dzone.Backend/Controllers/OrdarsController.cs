@@ -7,7 +7,9 @@ namespace Dzone.Backend.Controllers
     public class OrdarsController : ControllerBase
     {
         private readonly DzoneDbContext context;
+        private readonly string username = "";
         private readonly UserManager<MyCustomAppUser> userManager;
+
         public OrdarsController(DzoneDbContext context, UserManager<MyCustomAppUser> userManager)
         {
             this.context = context;
@@ -29,7 +31,6 @@ namespace Dzone.Backend.Controllers
                 if (selectedUser is null)
                     return Unauthorized();
 
-
                 var selectedLocation = await context.Locations.FirstOrDefaultAsync(l => l.Id == orderContract.locationId);
                 if (selectedLocation is null)
                     return BadRequest("الرجاء تحديد موقع الطلب, الموقع المختار غير موجود");
@@ -45,12 +46,11 @@ namespace Dzone.Backend.Controllers
                 ordar.LocationId = selectedLocation.Id;
                 ordar.Status = "غير مكتملة";
                 ordar.Notes = orderContract.notes;
-               
+
                 ordar.IsPaid = false;
 
                 //To Do => Initi Payment Link Tlync Payment Gateway
                 ordar.PaymentLink = "";
-
 
                 //============================================================================================================
                 //02) Check Order Contents Values =>
@@ -66,19 +66,16 @@ namespace Dzone.Backend.Controllers
                     if (prodactFromDb is null)
                         return BadRequest("احد اصناف السلة غير موجود, الرجاء تـأكيد البيانات وأعادة أرسال الطلب.");
 
-
                     if (item.quantity == 0)
                         return BadRequest($"لايمكن أضافة صنف بكمية صفرية, الرجاء تـاكيد كمية الصنف : {prodactFromDb.Name}");
 
                     orderItem.OrderId = ordar.Id;
 
-                    orderItem.Quantity =item.quantity;
+                    orderItem.Quantity = item.quantity;
                     orderItem.Note = item.note;
-                    
+
                     orderItem.ProductId = prodactFromDb.Id;
                     orderItem.Price = prodactFromDb.SellPrice;
-                
-
                 }
 
                 ordar.Total = orderContract.orderContents.Sum(i => i.price * i.quantity);
@@ -131,7 +128,6 @@ namespace Dzone.Backend.Controllers
                 return Problem(exception.Message);
             }
         }
-
 
         [HttpGet("getOrderContents")]
         [Authorize(Roles = "AppUser")]
