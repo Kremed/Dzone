@@ -5,7 +5,8 @@ namespace Dzone.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrdersController :
+        ControllerBase
     {
     }
 }
