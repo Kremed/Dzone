@@ -7,7 +7,6 @@ namespace Dzone.Backend.Controllers
     public class OrdarsController : ControllerBase
     {
         private readonly DzoneDbContext context;
-        private readonly string username = "";
         private readonly UserManager<MyCustomAppUser> userManager;
 
         public OrdarsController(DzoneDbContext context, UserManager<MyCustomAppUser> userManager)
