@@ -1,20 +1,22 @@
-﻿global using Dzone.Mobile.Views.AuthViews;
-global using Microsoft.Extensions.Logging;
-global using Microsoft.Maui.Controls.Platform.Compatibility;
-global using CommunityToolkit.Maui;
-global using Maui.FreakyEffects;
+﻿global using SQLite;
+global using ErrorOr;
 global using UraniumUI;
-global using SkiaSharp.Views.Maui.Controls.Hosting;
 global using RestSharp;
 global using Dzone.Shared;
+global using Dzone.Mobile.Dtos;
+global using Maui.FreakyEffects;
+global using Dzone.Models.Shered;
+global using Dzone.Mobile.Services;
+global using CommunityToolkit.Maui;
 global using Dzone.Mobile.Interfaces;
+global using CommunityToolkit.Maui.Alerts;
+global using Microsoft.Extensions.Logging;
+global using Dzone.Mobile.Views.AuthViews;
 global using Dzone.Shared.Contracts.Ordars;
 global using Dzone.Shared.Contracts.Products;
 global using Dzone.Shared.Contracts.Authentication;
-global using Dzone.Mobile.Services;
-global using ErrorOr;
-global using Dzone.Models.Shered;
-global using CommunityToolkit.Maui.Alerts;
+global using SkiaSharp.Views.Maui.Controls.Hosting;
+global using Microsoft.Maui.Controls.Platform.Compatibility;
 
 namespace Dzone.Mobile
 {
@@ -27,6 +29,8 @@ namespace Dzone.Mobile
             //Add NuGet Packages => UraniumUI.Material
             //Add NuGet Packages => Maui.FreakyEffects
             //Add NuGet Packages => RestSharp
+            //Add NuGet Packages => sqlite-net-pcl
+            //Add NuGet Packages => SQLitePCLRaw.bundle_green
 
             //.UseSkiaSharp()
             var builder = MauiApp.CreateBuilder();
@@ -59,6 +63,9 @@ namespace Dzone.Mobile
                 return client;
             });
 
+            builder.Services.AddSingleton<ISqliteSevice, SqliteSevice>();
+            builder.Services.AddSingleton<ILocalTokenService, SqliteTokenService>();
+            
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<IProductsService, ProductsService>();
 
@@ -67,10 +74,10 @@ namespace Dzone.Mobile
             builder.Services.AddSingleton<MainPage>();
 
             //Add Auth Views to IoC=>
-            builder.Services.AddSingleton<LoginView>();
-            builder.Services.AddSingleton<RegisterView>();
-            builder.Services.AddSingleton<ConfirmOtpView>();
-            builder.Services.AddSingleton<ForggetPasswordView>();
+            builder.Services.AddTransient<LoginView>();
+            builder.Services.AddTransient<RegisterView>();
+            builder.Services.AddTransient<ConfirmOtpView>();
+            builder.Services.AddTransient<ForggetPasswordView>();
 
             return builder.Build();
         }

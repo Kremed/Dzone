@@ -48,7 +48,7 @@ namespace Dzone.Backend.Controllers
 
         [HttpPost("register")]
         [SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK 123")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
         public async Task<IActionResult> Register([FromBody] RegisterContract model)
@@ -100,15 +100,13 @@ namespace Dzone.Backend.Controllers
         //================================================================================================================\
 
         [HttpPost("login")]
-        //[SwaggerResponse(StatusCodes.Status200OK, "Status 200 OK", typeof(LoginResponce))]
-        //[SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized")]
-        //[SwaggerResponse(StatusCodes.Status403Forbidden, "Status 403 Forbidden", typeof(string))]
-        //[SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request")]
-        //[SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error")]
-        //[SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
+        [SwaggerOperation(Summary = "Retrieve user by ID", Description = "Fetches a user with the specified ID.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "في حالة تسجيل الدخول بشكل سليم يتم أرجاع رمز التحقق", typeof(LoginResponce))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Status 401 Unauthorized", typeof(string))]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, "Status 403 Forbidden", typeof(string))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Status 400 Bad Request", typeof(string))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Status 500 Internal Server Error", typeof(string))]
 
-        [ProducesResponseType(typeof(LoginResponce), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Login([FromBody] LoginContract model)
         {
             try
@@ -116,7 +114,7 @@ namespace Dzone.Backend.Controllers
                 var user = await userManager.FindByEmailAsync(model.email);
 
                 if (user is null)
-                    return Unauthorized("فشلت عملية المصادقة الرجاء التـأكد من بياناتكـ.");
+                    return BadRequest("فشلت عملية المصادقة الرجاء التـأكد من بياناتكـ.");
 
                 //var isSucssesLoginResult = await userManager.CheckPasswordAsync(user, model.password);
 
@@ -129,7 +127,7 @@ namespace Dzone.Backend.Controllers
                     var isEmailSent = await emailService.SendConfirmationEmail(otp: otpCode.ToString(), email: user.Email!);
 
                     //Forbidden => StatusCode = 403 = Email Account not confirmed
-                    return Forbid("الرجاء تــأكيد بريدك الألكتروني, لايمكن تسجيل الدخول قبل تــأكيد امتلاكك للبريد الألكترونية");
+                    return Unauthorized("الرجاء تــأكيد بريدك الألكتروني, لايمكن تسجيل الدخول قبل تــأكيد امتلاكك للبريد الألكترونية");
                 }
                 else if (isSucssesLoginResult.IsLockedOut)
                 {
@@ -153,7 +151,8 @@ namespace Dzone.Backend.Controllers
 
                     return Ok(token);
                 }
-                return Unauthorized("فشلت عملية المصادقة, الرجاء التــأكد من البيانات");
+
+                return BadRequest("فشلت عملية المصادقة, الرجاء التــأكد من البيانات");
             }
             catch (Exception ex)
             {

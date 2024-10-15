@@ -2,7 +2,7 @@
 
 public interface IAuthService
 {
-    //Task<ErrorOr<bool>> LoginAsync(LoginContract contract);
+    Task<ErrorOr<LoginResponce>> LoginAsync(LoginContract contract);
 
     Task<ErrorOr<bool>> CreateUserAsync(RegisterContract registerContract);
 

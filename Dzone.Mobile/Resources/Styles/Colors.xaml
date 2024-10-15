@@ -12,7 +12,7 @@
     <Color x:Key="Tertiary">#00DFA2</Color>
 
     <Color x:Key="White">White</Color>
-    <Color x:Key="SecondWhite">#F5EFE7</Color>
+    <Color x:Key="SecondWhite">#F4F4F4</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="OffBlack">#2B2B2B</Color>
 
