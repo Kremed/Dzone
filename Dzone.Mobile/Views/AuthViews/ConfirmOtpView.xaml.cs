@@ -22,20 +22,25 @@ public partial class ConfirmOtpView : ContentPage
         this.authService = authService;
     }
 
+    public void CheckTetValidety()
+    {
+
+        if (!string.IsNullOrEmpty(username) &&
+            !string.IsNullOrEmpty(otpType) &&
+            !string.IsNullOrEmpty(title) &&
+            !string.IsNullOrEmpty(emailAddress))
+        {
+            LblTitle.Text = title;
+            LblUserName.Text = "مرحبأ بكـ " + username;
+        }
+    }
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         try
         {
             base.OnNavigatedTo(args);
-
-            if (!string.IsNullOrEmpty(username) &&
-                !string.IsNullOrEmpty(otpType) &&
-                !string.IsNullOrEmpty(title) &&
-                !string.IsNullOrEmpty(emailAddress))
-            {
-                LblTitle.Text = title;
-                LblUserName.Text = "مرحبأ بكـ " + username;
-            }
+            
+            CheckTetValidety();
 
             if (otpType == "RestPassword")
                 TxtNewPassword.IsVisible = true;
@@ -127,6 +132,7 @@ public partial class ConfirmOtpView : ContentPage
 
                 await Shell.Current.GoToAsync($"../{nameof(LoginView)}");
             }
+
         }
         catch (Exception)
         {

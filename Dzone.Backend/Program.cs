@@ -17,10 +17,10 @@ global using System.Net;
 global using System.Net.Mail;
 global using System.Security.Claims;
 global using System.Text;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.Extensions.Options;
+global using Microsoft.OpenApi.Models;
+global using System.Reflection;
 
 namespace Dzone.Backend;
 

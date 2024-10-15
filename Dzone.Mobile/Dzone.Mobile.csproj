@@ -83,6 +83,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="RestSharp" Version="112.1.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
 		<PackageReference Include="UraniumUI" Version="2.10.2" />
 		<PackageReference Include="UraniumUI.Material" Version="2.10.2" />
 	</ItemGroup>
