@@ -39,13 +39,15 @@
                 SelectionMode="Single"
                 VerticalOptions="FillAndExpand">
 
+
+
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
                 <!--  FlowDirection="{Binding IsActive,Converter={StaticResource BoolToDirConverter}}"  -->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Category">
-                        <StackLayout freakyEffects:TouchEffect.Color="Red">
+                        <StackLayout freakyEffects:TouchEffect.Color="LightGray">
                             <Border
                                 Padding="10"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite}}"
@@ -97,6 +99,12 @@
                                         VerticalOptions="Center" />
                                 </Grid>
                             </Border>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1"
+                                    Tapped="TapGestureRecognizer_Tapped" />
+                            </StackLayout.GestureRecognizers>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

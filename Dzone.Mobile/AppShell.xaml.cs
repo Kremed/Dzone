@@ -7,8 +7,6 @@ namespace Dzone.Mobile
         {
             InitializeComponent();
 
-
-            
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
 
             //Register Auth Views Route =>
@@ -16,6 +14,13 @@ namespace Dzone.Mobile
             Routing.RegisterRoute(nameof(RegisterView), typeof(RegisterView));
             Routing.RegisterRoute(nameof(ConfirmOtpView), typeof(ConfirmOtpView));
             Routing.RegisterRoute(nameof(ForggetPasswordView), typeof(ForggetPasswordView));
+
+            //Register Store Views Route =>
+            Routing.RegisterRoute(nameof(CartView), typeof(CartView));
+            Routing.RegisterRoute(nameof(ProductsView), typeof(ProductsView));
+            Routing.RegisterRoute(nameof(CheckoutView), typeof(CheckoutView));
+            Routing.RegisterRoute(nameof(OrdaresArchive), typeof(OrdaresArchive));
+            Routing.RegisterRoute(nameof(ProductInfoView), typeof(ProductInfoView));
         }
 
         //fixing App Shell FlowDiriction Issue github [https://github.com/dotnet/maui/pull/23473#issuecomment-2309531487]

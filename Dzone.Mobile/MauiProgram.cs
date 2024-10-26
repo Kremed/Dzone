@@ -17,6 +17,7 @@ global using Dzone.Shared.Contracts.Products;
 global using Dzone.Shared.Contracts.Authentication;
 global using SkiaSharp.Views.Maui.Controls.Hosting;
 global using Microsoft.Maui.Controls.Platform.Compatibility;
+global using Dzone.Mobile.Views.StoreViews;
 
 namespace Dzone.Mobile
 {
@@ -64,8 +65,9 @@ namespace Dzone.Mobile
             });
 
             builder.Services.AddSingleton<ISqliteSevice, SqliteSevice>();
+            builder.Services.AddSingleton<ICartService, CartService>();
             builder.Services.AddSingleton<ILocalTokenService, SqliteTokenService>();
-            
+
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<IProductsService, ProductsService>();
 
@@ -78,6 +80,14 @@ namespace Dzone.Mobile
             builder.Services.AddTransient<RegisterView>();
             builder.Services.AddTransient<ConfirmOtpView>();
             builder.Services.AddTransient<ForggetPasswordView>();
+
+            //Add Store Views to IoC=>
+            builder.Services.AddSingleton<CartView>();
+            builder.Services.AddSingleton<ProductsView>();
+            builder.Services.AddSingleton<CheckoutView>();
+            builder.Services.AddSingleton<OrdaresArchive>();
+            builder.Services.AddSingleton<ProductInfoView>();
+
 
             return builder.Build();
         }

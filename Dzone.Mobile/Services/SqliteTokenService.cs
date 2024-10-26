@@ -140,5 +140,4 @@ public class SqliteTokenService : ILocalTokenService
             return Error.Unexpected(description: ex.Message);
         }
     }
-
 }

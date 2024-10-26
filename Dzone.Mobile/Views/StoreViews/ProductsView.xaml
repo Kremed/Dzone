@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Dzone.Mobile.Views.StoreViews.ProductsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:Dzone.Mobile.Converters"
+    xmlns:freakyEffects="clr-namespace:Maui.FreakyEffects.TouchEffects;assembly=Maui.FreakyEffects"
+    xmlns:models="clr-namespace:Dzone.Models.Shered;assembly=Dzone.Shared"
+    xmlns:sk="clr-namespace:Maui.Skeleton;assembly=Maui.Skeleton"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converters:BoolToDirConverter x:Key="BoolToDirConverter" />
+            <Converters:IsActiveBoolToStringConverter x:Key="BoolToStringConverter" />
+            <Converters:IsActiveBoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10,10" Spacing="10">
+            <!--  القسم العلوي الترحيبي  -->
+            <StackLayout Spacing="-5">
+                <Label
+                    x:Name="LblCategoryName"
+                    FontAttributes="Bold"
+                    FontSize="20" />
+                <Label x:Name="LblCategoryDiscrption" />
+            </StackLayout>
+
+
+            <CollectionView
+                x:Name="ProductsCollectionView"
+                HorizontalOptions="FillAndExpand"
+                SelectionMode="Single"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="10"
+                        Orientation="Vertical"
+                        Span="2"
+                        VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <StackLayout>
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite}}"
+                                HeightRequest="280">
+
+                                <Grid ColumnDefinitions="*,50" RowDefinitions="200,*">
+
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2">
+
+                                        <Image
+                                            Aspect="AspectFill"
+                                            HeightRequest="200"
+                                            Source="{Binding FirstImage}" />
+                                    </Border>
+
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        HorizontalOptions="Start"
+                                        Spacing="-5"
+                                        VerticalOptions="EndAndExpand">
+
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Text="{Binding Name}" />
+
+
+
+
+                                        <Border
+                                            Padding="0,0"
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="EndAndExpand">
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Padding="1"
+                                                FontAttributes="Bold"
+                                                FontSize="14"
+                                                Text="{Binding SellPrice, StringFormat='{0} دل'}"
+                                                TextColor="{StaticResource Primary}" />
+                                        </Border>
+
+                                    </StackLayout>
+
+
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        freakyEffects:TouchEffect.Color="LightGray"
+                                        HeightRequest="35"
+                                        HorizontalOptions="End"
+                                        WidthRequest="35">
+                                        <Border
+                                            Padding="10,0"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            HeightRequest="35"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="CenterAndExpand"
+                                            WidthRequest="35">
+                                            <Image
+                                                HeightRequest="15"
+                                                Source="addtocart.svg"
+                                                WidthRequest="15">
+                                                <Image.Behaviors>
+                                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource White}}" />
+                                                </Image.Behaviors>
+                                            </Image>
+
+                                        </Border>
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1"
+                                                Tapped="TapGestureRecognizer_Tapped" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Grid>
+                            </Border>
+                            <!--<StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1"
+                                    Tapped="TapGestureRecognizer_Tapped" />
+                            </StackLayout.GestureRecognizers>-->
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout
+                            HeightRequest="2000"
+                            Spacing="10"
+                            VerticalOptions="FillAndExpand">
+
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="10"
+                                HeightRequest="400"
+                                RowDefinitions="*,*"
+                                RowSpacing="10">
+
+                                <Border
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                Interval='500'}"
+                                    sk:Skeleton.BackgroundColor="#c6c6c5"
+                                    sk:Skeleton.IsBusy="True"
+                                    sk:Skeleton.IsParent="True"
+                                    HeightRequest="200" />
+                                <Border
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                Interval='500'}"
+                                    sk:Skeleton.BackgroundColor="#c6c6c5"
+                                    sk:Skeleton.IsBusy="True"
+                                    sk:Skeleton.IsParent="True"
+                                    HeightRequest="200" />
+                                <Border
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                Interval='500'}"
+                                    sk:Skeleton.BackgroundColor="#c6c6c5"
+                                    sk:Skeleton.IsBusy="True"
+                                    sk:Skeleton.IsParent="True"
+                                    HeightRequest="200" />
+                                <Border
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                Interval='500'}"
+                                    sk:Skeleton.BackgroundColor="#c6c6c5"
+                                    sk:Skeleton.IsBusy="True"
+                                    sk:Skeleton.IsParent="True"
+                                    HeightRequest="200" />
+                            </Grid>
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

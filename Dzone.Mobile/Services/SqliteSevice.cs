@@ -29,6 +29,7 @@ internal class SqliteSevice : ISqliteSevice
         try
         {
             await DbConnection.CreateTableAsync<UserTbl>();
+            await DbConnection.CreateTableAsync<CartLocalTbl>();
 
             return true;
         }

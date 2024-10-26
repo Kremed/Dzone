@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Dzone.Mobile.Views.StoreViews.CartView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:Dzone.Mobile.Converters"
+    xmlns:SqliteTabels="clr-namespace:Dzone.Mobile.Dtos"
+    xmlns:freakyEffects="clr-namespace:Maui.FreakyEffects.TouchEffects;assembly=Maui.FreakyEffects"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:Dzone.Models.Shered;assembly=Dzone.Shared"
+    xmlns:sk="clr-namespace:Maui.Skeleton;assembly=Maui.Skeleton"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui">
+    <StackLayout VerticalOptions="FillAndExpand">
+
+        <ScrollView VerticalOptions="StartAndExpand">
+            <VerticalStackLayout Padding="10,10" Spacing="10">
+                <!--  القسم العلوي الترحيبي  -->
+                <StackLayout Spacing="-5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="سلة التســوق" />
+                    <Label Text="قائمة بالعناصر الخاصة بسلة التسوق!" />
+                </StackLayout>
+
+
+
+                <CollectionView
+                    x:Name="CartCollectionView"
+                    HorizontalOptions="FillAndExpand"
+                    SelectionMode="Single"
+                    VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="10"
+                            Orientation="Vertical"
+                            Span="1"
+                            VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="SqliteTabels:CartLocalTbl">
+                            <StackLayout>
+                                <Border
+                                    Padding="10"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource SecondWhite}}"
+                                    HeightRequest="80">
+
+                                    <Grid ColumnDefinitions="100,*,100" ColumnSpacing="10">
+
+                                        <Border Grid.Column="0">
+
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="100"
+                                                Source="{Binding image}"
+                                                WidthRequest="100" />
+                                        </Border>
+
+                                        <StackLayout
+                                            Grid.Column="1"
+                                            HorizontalOptions="Start"
+                                            Spacing="-5"
+                                            VerticalOptions="CenterAndExpand">
+
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                Text="{Binding name}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Padding="1"
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                Text="{Binding price, StringFormat='{0} دل'}"
+                                                TextColor="{StaticResource Primary}" />
+
+                                        </StackLayout>
+
+
+                                        <Grid
+                                            Grid.Column="2"
+                                            ColumnDefinitions="*,*,*"
+                                            HorizontalOptions="FillAndExpand">
+
+                                           
+
+                                            <StackLayout
+                                                Grid.Column="0"
+                                                freakyEffects:TouchEffect.Color="LightGray"
+                                                HeightRequest="35"
+                                                HorizontalOptions="End"
+                                                WidthRequest="35">
+                                                <Border
+                                                    Padding="10,0"
+                                                    BackgroundColor="{StaticResource Primary}"
+                                                    HeightRequest="35"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="35">
+                                                    <Label
+                                                        FontSize="16"
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Text="+"
+                                                        TextColor="White"
+                                                        VerticalOptions="CenterAndExpand" />
+
+                                                </Border>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        CommandParameter="{Binding id}"
+                                                        NumberOfTapsRequired="1"
+                                                        Tapped="TapGestureRecognizer_Tapped" />
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+
+
+
+                                            <Label
+                                                Grid.Column="1"
+                                                FontSize="16"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding quantity}"
+                                                VerticalTextAlignment="Center" />
+
+
+
+                                            <StackLayout
+                                                Grid.Column="2"
+                                                freakyEffects:TouchEffect.Color="LightGray"
+                                                HeightRequest="35"
+                                                HorizontalOptions="End"
+                                                WidthRequest="35">
+                                                <Border
+                                                    Padding="10,0"
+                                                    BackgroundColor="{StaticResource Primary}"
+                                                    HeightRequest="35"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="35">
+                                                    <Label
+                                                        FontSize="16"
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Text="-"
+                                                        TextColor="White"
+                                                        VerticalOptions="CenterAndExpand" />
+
+                                                </Border>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        CommandParameter="{Binding id}"
+                                                        NumberOfTapsRequired="1"
+                                                        Tapped="TapGestureRecognizer_Tapped_1" />
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+
+
+
+
+
+                                        </Grid>
+
+                                    </Grid>
+                                </Border>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.EmptyView>
+                        <ContentView>
+                            <StackLayout
+                                HeightRequest="2000"
+                                Spacing="10"
+                                VerticalOptions="FillAndExpand">
+
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="10"
+                                    HeightRequest="400"
+                                    RowDefinitions="*,*"
+                                    RowSpacing="10">
+
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                    Interval='500'}"
+                                        sk:Skeleton.BackgroundColor="#c6c6c5"
+                                        sk:Skeleton.IsBusy="True"
+                                        sk:Skeleton.IsParent="True"
+                                        HeightRequest="200" />
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                    Interval='500'}"
+                                        sk:Skeleton.BackgroundColor="#c6c6c5"
+                                        sk:Skeleton.IsBusy="True"
+                                        sk:Skeleton.IsParent="True"
+                                        HeightRequest="200" />
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                    Interval='500'}"
+                                        sk:Skeleton.BackgroundColor="#c6c6c5"
+                                        sk:Skeleton.IsBusy="True"
+                                        sk:Skeleton.IsParent="True"
+                                        HeightRequest="200" />
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade,
+                                                                                    Interval='500'}"
+                                        sk:Skeleton.BackgroundColor="#c6c6c5"
+                                        sk:Skeleton.IsBusy="True"
+                                        sk:Skeleton.IsParent="True"
+                                        HeightRequest="200" />
+                                </Grid>
+                            </StackLayout>
+                        </ContentView>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid Margin="20" ColumnDefinitions="*,*">
+
+            
+            <Label
+                Grid.Column="1"
+                x:Name="LblcartTotal"
+                FontSize="20"
+                HorizontalOptions="End"
+                Text="0000.00"
+                VerticalOptions="EndAndExpand" />
+            <Button Grid.Column="0" Text="تــأكيد الطلب"/>
+        </Grid>
+    </StackLayout>
+</ContentPage>

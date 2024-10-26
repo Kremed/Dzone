@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:AuthViews="clr-namespace:Dzone.Mobile.Views.AuthViews"
+    xmlns:StoreViews="clr-namespace:Dzone.Mobile.Views.StoreViews"
     xmlns:local="clr-namespace:Dzone.Mobile"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Dzone.Mobile"
@@ -59,7 +60,7 @@
         <Tab Title="السلة" Icon="cart">
             <ShellContent
                 Title="السلة"
-                ContentTemplate="{DataTemplate local:MainPage}"
+                ContentTemplate="{DataTemplate StoreViews:CartView}"
                 Icon="cart" />
         </Tab>
 
